@@ -38,7 +38,7 @@
   canvas{width:100%;height:250px;display:block}
   .cyc{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
   .chip{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:12px 14px;background:#060b12;border:1px solid var(--line);font-family:var(--mono);font-size:13px}
-  .chip .id{color:var(--mut);letter-spacing:.05em}
+  .chip .id{color:var(--mut);letter-spacing:.05em;white-space:nowrap}
   .chip .n{font-weight:700;font-variant-numeric:tabular-nums}
   .chip .n.pos{color:var(--gr)}.chip .n.neg{color:var(--red)}
   .chip .roi{font-size:11px;color:var(--mut2)}
@@ -63,7 +63,7 @@
   <div class="foot"><span id="upd">Aggiornato —</span><span>Dati anonimi · nessuna informazione sensibile</span></div>
 </div>
 <script>
-const DATA = {"realized_profit": 2090.45, "roi": 15.1, "completed": 33, "donesfx": "27 bruc · 6 pass", "active": 5, "updated": "13/07/2026 07:04", "curve": [["24/06", 0.0], ["13/07", 2090.45]], "cards": [{"n": 110.88, "roi": null}, {"n": 104.68, "roi": null}, {"n": 106.09, "roi": null}, {"n": 149.21, "roi": null}, {"n": 100.03, "roi": null}, {"n": 107.46, "roi": null}, {"n": 95.07, "roi": null}, {"n": 108.09, "roi": null}, {"n": 99.24, "roi": null}, {"n": 128.45, "roi": null}, {"n": 97.55, "roi": null}, {"n": 91.35, "roi": null}, {"n": 98.48, "roi": null}, {"n": 99.41, "roi": null}, {"n": 10.6, "roi": null}, {"n": 95.69, "roi": null}, {"n": 99.72, "roi": null}, {"n": 464.76, "roi": null}, {"n": 105.61, "roi": null}, {"n": 96.62, "roi": null}, {"n": 96.93, "roi": null}, {"n": 96.31, "roi": null}, {"n": 93.52, "roi": null}, {"n": -6.14, "roi": null}, {"n": 2.26, "roi": null}, {"n": 94.76, "roi": null}, {"n": -2.13, "roi": null}, {"n": -14.83, "roi": null}, {"n": 96.93, "roi": null}, {"n": 116.15, "roi": null}, {"n": 112.43, "roi": null}, {"n": -13.14, "roi": null}, {"n": 100.33, "roi": null}]};
+const DATA = {"realized_profit": 7926.64, "roi": 52.7, "completed": 0, "donesfx": "0 bruc · 0 pass", "active": 0, "updated": "13/07/2026 07:29", "curve": [["24/06", 0.0], ["13/07", 7926.64]], "cards": []};
 const fm = n => (n>=0?"+":"−")+"$"+Math.abs(n).toLocaleString("it-IT");
 function render(d){
   const p=document.getElementById("profit");
@@ -75,8 +75,9 @@ function render(d){
   document.getElementById("upd").textContent="Aggiornato "+d.updated;
   if(d.cards&&d.cards.length){
     document.getElementById("cards").innerHTML=d.cards.map((c,i)=>
-      `<div class="chip"><span class="id">Ciclo #${i+1}</span><span><span class="n ${c.n>=0?'pos':'neg'}">${fm(c.n)}</span>`+
-      (c.roi!=null?`<span class="roi"> ${c.roi>=0?'+':''}${c.roi}%</span>`:``)+`</span></div>`).join("");
+      `<div class="chip"><span class="id">Ciclo #${i+1}</span>`+
+      (c.pass?`<span class="roi">pareggio</span>`:`<span class="n ${c.n>=0?'pos':'neg'}">${fm(c.n)}</span>`)+
+      `</div>`).join("");
   } else { document.getElementById("cardsPanel").style.display="none"; }
   drawCurve(d.curve||[]);
 }
